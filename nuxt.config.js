@@ -69,7 +69,9 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {},
+  axios: {
+    baseURL: process.env.BASEURL
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -98,6 +100,7 @@ export default {
   build: {
   },
   env: {
-    apiSecret: process.env.API_SECRET
+    apiSecret: process.env.API_SECRET,
+    baseURL: process.env.BASEURL
   }
 }

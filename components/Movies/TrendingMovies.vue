@@ -1,31 +1,9 @@
 <template>
   <div>
-    <div>
-      <h1>Up Coming Movies</h1>
-    </div>
-    <v-row>
-      <v-carousel
-        hide-delimiters
-        continuous
-        cycle
-        show-arrows-on-hover
-        height="700"
-      >
-        <v-carousel-item
-          v-for="(item, index) in upComingMovies.results"
-          :key="index"
-          :src="item.backdrop"
-        >
-          <v-card-title class="text-truncate">
-            <h3>{{ item.title }}{{ item.original_name }}</h3>
-          </v-card-title>
-        </v-carousel-item>
-      </v-carousel>
-    </v-row>
     <v-row class="d-flex justify-center">
       <v-container class="d-flex justify-content-center" style="overflow: auto; white-space: nowrap;">
         <div
-          v-for="(item, index) in upComingMovies.results"
+          v-for="(item, index) in trendingMovies.results"
           :key="index"
         >
           <Card :item="item" :loading="loading" style="display: inline-block;" />
@@ -34,7 +12,7 @@
       <v-pagination
         v-model="currentPage"
         total-visiable="5"
-        :length="upComingMovies.totalPages"
+        :length="trendingMovies.totalPages"
         @input="updatePage"
       />
     </v-row>
@@ -52,19 +30,19 @@
 <script>
 import { mapGetters } from 'vuex'
 // import store from '../store/index'
-import cfg from '../config/index'
+import cfg from '../../config/index'
 export default {
   data () {
     return {
       key: process.env.apiSecret,
-      upComing: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.apiSecret}&language=en-US&region=us`,
+      trending: `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.apiSecret}&language=en-US&region=us`,
       currentPage: 1,
       totalPages: 1
     }
   },
   computed: {
     ...mapGetters(['getData', 'isLoading']),
-    upComingMovies () {
+    trendingMovies () {
       return this.getData(this.opts.componentId)
     },
     loading () {
@@ -75,20 +53,17 @@ export default {
     }
   },
   created () {
-    this.loadUpcoming()
-  },
-  mounted () {
-    this.loadUpcoming()
+    this.loadTrending()
   },
   methods: {
-    loadUpcoming () {
-      const URL = `${this.upComing}&page=${this.currentPage}`
-      this.opts = cfg.renderObject(URL, 'upComingMovies')
+    loadTrending () {
+      const URL = `${this.trending}&page=${this.currentPage}`
+      this.opts = cfg.renderObject(URL, 'trendingMovies')
       this.$store.dispatch(cfg.grd, this.opts)
     },
     updatePage () {
-      this.opts = cfg.renderObject(`${this.upComing}&page=${this.currentPage}`, 'upComingMovies')
-      this.loadUpcoming()
+      this.opts = cfg.renderObject(`${this.trending}&page=${this.currentPage}`, 'trendingMovies')
+      this.loadTrending()
     }
   }
 }
