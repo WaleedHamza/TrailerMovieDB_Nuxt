@@ -7,7 +7,7 @@
           v-for="(item, index) in upComingMovies.results"
           :key="index"
         >
-          <Card :item="item" :cid="componentId" :loading="loading" style="display: inline-block;" />
+          <Card :item="item" :type="mediaType" :cid="componentId" :loading="loading" style="display: inline-block;" />
         </div>
       </v-container>
       <v-pagination
@@ -34,6 +34,7 @@ import cfg from '../../config/index'
 export default {
   data () {
     return {
+      mediaType: 'movie',
       componentId: 'upComingMovies',
       upComingUrl: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.apiSecret}&language=en-US&region=us`,
       currentPage: 1,

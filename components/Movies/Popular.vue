@@ -7,7 +7,7 @@
           v-for="(item, index) in popularMovies.results"
           :key="index"
         >
-          <Card :item="item" :cid="componentId" ::loading="loading" style="display: inline-block;" />
+          <Card :item="item" :type="mediaType" :cid="componentId" :loading="loading" style="display: inline-block;" />
         </div>
       </v-container>
       <v-pagination
@@ -34,6 +34,8 @@ import cfg from '../../config/index'
 export default {
   data () {
     return {
+      mediaType: 'movie',
+      componentId: 'popularMovies',
       popularUrl: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.apiSecret}&language=en-US&region=us`,
       currentPage: 1,
       nextPage: 0,
@@ -60,7 +62,7 @@ export default {
   methods: {
     loadPopular () {
       const URL = `${this.popularUrl}&page=${this.currentPage}`
-      this.opts = cfg.renderObject(URL, 'popularMovies')
+      this.opts = cfg.renderObject(URL, this.componentId)
       this.$store.dispatch(cfg.grd, this.opts)
     },
     updatePage () {
@@ -68,7 +70,7 @@ export default {
         return null
       } else {
         this.nextPage = this.currentPage
-        this.opts = cfg.renderObject(`${this.popularUrl}&page=${this.currentPage}`, 'popularMovies')
+        this.opts = cfg.renderObject(`${this.popularUrl}&page=${this.currentPage}`, this.componentId)
         this.loadPopular()
       }
     }

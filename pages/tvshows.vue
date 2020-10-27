@@ -1,23 +1,41 @@
 <template>
   <v-container>
     <v-row>
-      <div v-for="(b, index) in btns" :key="index" class="d-flex justify-center">
+      <Popular />
+    </v-row>
+    <v-row>
+      <TopRated />
+    </v-row>
+    <v-row>
+      <OnAir />
+    </v-row>
+    <v-row>
+      <AiringToday />
+    </v-row>
+    <!-- <div v-for="
+        (b,
+        index)
+        in
+        btns"
+        class="d-flex justify-center"
+      >
         <v-btn text color="green" @click="setUrl(b)">
           {{ b }}
         </v-btn>
-      </div>
-      <v-spacer />
-      <v-text-field
-        v-model="title"
-        solo
-        clearable
-        :hide-details="true"
-        placeholder="Show Title"
-        append-outer-icon="mdi-card-search-outline"
-        @click:append-outer="search"
-        @click:clear="loadTv"
-        @keydown.enter="search"
-      />
+        </div>
+        <v-spacer />
+        <v-text-field
+          v-model="title"
+          solo
+          clearable
+          :hide-details="true"
+          placeholder="Show Title"
+          append-outer-icon="mdi-card-search-outline"
+          @click:append-outer="search"
+          @click:clear="loadTv"
+          @keydown.enter="search"
+        />
+      </popular>
     </v-row>
     <NoContent v-if="shows === 0 " :title="title" />
     <v-container v-else class="d-flex justify-center flex-wrap column">
@@ -53,28 +71,30 @@
       timeout="1500"
     >
       Please add title
-    </v-snackbar>
+    </v-snackbar> -->
   </v-container>
 </template>
 
 <script>
 import axios from 'axios'
-import Card from '../components/Card'
-import NoContent from '../components/NoContent'
+import Popular from '../components/Shows/Popular'
+import TopRated from '../components/Shows/TopRated'
+import OnAir from '../components/Shows/OnAir'
+import AiringToday from '../components/Shows/AiringToday'
 export default {
   components: {
-    NoContent,
-    Card
+    Popular,
+    TopRated,
+    OnAir,
+    AiringToday
   },
   data () {
     return {
       mediaType: 'show',
       btns: ['Popular', 'Top Rated', 'On The Air', 'Airing Today'],
-      latest: `https://api.themoviedb.org/3/tv/latest?api_key=${process.env.apiSecret}&language=en-US`,
+      latestUrl: `https://api.themoviedb.org/3/tv/latest?api_key=${process.env.apiSecret}&language=en-US`,
       topRated: `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.apiSecret}&language=en-US`,
-      onAir: `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.apiSecret}&language=en-US`,
-      airingToday: `https://api.themoviedb.org/3/tv/airing_today?api_key=${process.env.apiSecret}&language=en-US`,
-      popular: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.apiSecret}&language=en-US`,
+      airingTodayUrl: `https://api.themoviedb.org/3/tv/airing_today?api_key=${process.env.apiSecret}&language=en-US`,
       searchUrl: `https://api.themoviedb.org/3/search/tv?api_key=${process.env.apiSecret}&language=en-US`,
       loading: false,
       snackbar: false,

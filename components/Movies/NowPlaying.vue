@@ -7,7 +7,7 @@
           v-for="(item, index) in nowPlayingMovies.results"
           :key="index"
         >
-          <Card :item="item" :cid="componentId" ::loading="loading" style="display: inline-block;" />
+          <Card :item="item" :type="mediaType" :cid="componentId" :loading="loading" style="display: inline-block;" />
         </div>
       </v-container>
       <v-pagination
@@ -34,6 +34,8 @@ import cfg from '../../config/index'
 export default {
   data () {
     return {
+      mediaType: 'movie',
+      componentId: 'nowPlayingMovies',
       nowPlayingUrl: `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.apiSecret}&language=en-US&region=us`,
       currentPage: 1,
       nextPage: 0,
@@ -60,7 +62,7 @@ export default {
   methods: {
     loadNowPlaying () {
       const URL = `${this.nowPlayingUrl}&page=${this.currentPage}`
-      this.opts = cfg.renderObject(URL, 'nowPlayingMovies')
+      this.opts = cfg.renderObject(URL, this.componentId)
       this.$store.dispatch(cfg.grd, this.opts)
     },
     updatePage () {
@@ -68,7 +70,7 @@ export default {
         return null
       } else {
         this.nextPage = this.currentPage
-        this.opts = cfg.renderObject(`${this.nowPlayingUrl}&page=${this.currentPage}`, 'nowPlayingMovies')
+        this.opts = cfg.renderObject(`${this.nowPlayingUrl}&page=${this.currentPage}`, this.componentId)
         this.loadNowPlaying()
       }
     }
