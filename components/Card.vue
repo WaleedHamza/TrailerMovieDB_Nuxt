@@ -5,36 +5,40 @@
       class="mx-auto"
       type="card"
     >
-      <v-card class="mx-auto" width="200" color="grey">
-        <v-img class="white--text align-end" height="300px" :src="item.poster" contain>
-        <!-- <v-card-title class="text-truncate">
-          <h3>{{ item.title }}{{ item.original_name }}</h3>
-        </v-card-title> -->
-        </v-img>
-        <v-card-actions>
-          <v-text v-if="item.release_date || item.first_air_date">
-            <p style="font-size: 60%">
+      <v-card class="mx-auto card" width="200">
+        <v-img class="white--text align-end" height="300px" :src="item.poster" contain />
+        <v-card-actions class="d-flex justify-space-around align-center">
+          <v-sheet v-if="item.release_date || item.first_air_date">
+            <p class="ma-0" style="font-size: 70%">
               {{ item.release_date }}{{ item.first_air_date }}
             </p>
-          </v-text>
+          </v-sheet>
           <v-card-subtitle v-else>
             Release date is unavailable
           </v-card-subtitle>
+          <v-icon @click="getInfo(item)">
+            mdi-information
+          </v-icon>
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
+    <v-dialog v-model="showInfoDialog">
+      <v-container v-if="Trailers">
+        <v-card v-for=" i in Trailers" :key="i.id">
+          {{ i.youtubeUrl }}
+        </v-card>
+      </v-container>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
-// import Video from '../components/Video'
-// import Details from '../components/Details'
+import { mapGetters } from 'vuex'
+import cfg from '../config/index'
+
 export default {
   name: 'Card',
   components: {
-    // Video,
-    // Details
   },
   props: {
     item: {
@@ -45,9 +49,15 @@ export default {
     },
     loading: {
       default: () => {
-        return false
+        return {}
       },
       type: Boolean
+    },
+    cid: {
+      default: () => {
+        return {}
+      },
+      type: String
     }
   },
   data () {
@@ -55,36 +65,35 @@ export default {
       key: process.env.apiSecret,
       videoKey: this.item.id,
       scrollInvoked: 0,
-      showVideoDialog: false,
+      showInfoDialog: false,
       detailsDialog: false,
       overlay: false,
       details: {}
     }
   },
   computed: {
+    ...mapGetters(['getTrailers']),
+    Trailers () {
+      return this.loading
+        ? []
+        : this.getTrailers('Trailers')
+    }
   },
   mounted () {
   },
   methods: {
-    launchVideoDialog () {
-      this.showVideoDialog = !this.showVideoDialog
-    },
-    getDetails (item) {
-    //   this.detailsDialog = !this.detailsDialog
-    //   const movieDetails = `https://api.themoviedb.org/3/movie/${item.id}?api_key=${this.key}&language=en-US`
-    //   const showDetails = `https://api.themoviedb.org/3/tv/${item.id}?api_key=${this.key}&language=en-US`
-    //   const url = item.mediaType === 'movie' ? movieDetails : showDetails
-    //   axios.get(url)
-    //     .then((res) => {
-    //       const d = res.data
-    //       d.backdrop_path = 'https://image.tmdb.org/t/p/original' + res.data.backdrop_path
-    //       d.poster_path = 'https://image.tmdb.org/t/p/original' + res.data.poster_path
-    //       this.details = d
-    //     })
-    //     .catch((err) => {
-    //       throw err
-    //     })
+    getInfo (props) {
+      const URL = `https://api.themoviedb.org/3/movie/${props.id}/videos?api_key=${process.env.apiSecret}&language=en-US`
+      this.opts = cfg.renderTrailer(URL, 'Trailers')
+      this.$store.dispatch(cfg.gT, this.opts)
+      this.showInfoDialog = !this.showInfoDialog
     }
   }
 }
 </script>
+
+<style scoped>
+.card {
+  background-color: rgba(0, 0, 0, 0);
+}
+</style>

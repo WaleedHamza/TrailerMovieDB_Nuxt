@@ -66,7 +66,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-footer
-      :absolute="!fixed"
+      :absolute="fixed"
       app
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>

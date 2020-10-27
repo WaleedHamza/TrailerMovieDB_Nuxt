@@ -9,6 +9,7 @@ export default {
   state: {
     laodingState: {},
     appData: {},
+    Trailers: {},
     errors: []
   },
   mutations: {
@@ -19,26 +20,53 @@ export default {
       Vue.set(state.appData, payload.cId, payload.data)
       Vue.set(state.laodingState, payload.cId, false)
     },
-    SET_UPCOMING_MOVIES (state, upComingMovies) {
-      Vue.set(state.appData.movies = upComingMovies)
+    SET_TRAILERS (state, payload) {
+      Vue.set(state.Trailers, payload.cId, payload.data)
+      Vue.set(state.laodingState, payload.cId, false)
     }
   },
   actions: {
     async getRenderData ({ commit }, opts) {
       commit(cfg.loadComponent, opts.componentId)
-      const res = await axios.get(opts.ep)
-      const respond = res.data.results
+      await axios.get(opts.ep).then((res) => {
+        const respond = res.data.results
+        const results = []
+        respond.forEach((item) => {
+          item.poster = item.poster_path === null ? 'https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg' : 'https://image.tmdb.org/t/p/original' + item.poster_path
+          item.backdrop = item.backdrop_path === null ? 'https://www.themoviedb.org/assets/2/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png' : 'https://image.tmdb.org/t/p/original' + item.backdrop_path
+          item.trailers = []
+          results.push(item)
+        })
+        const totalPages = res.data.total_pages
+        commit(cfg.renderComponent, {
+          data: { results, totalPages },
+          cId: opts.componentId
+        })
+      }).catch((error) => {
+        throw error
+      })
+    },
+    getTrailers ({ commit }, opts) {
+      commit(cfg.loadComponent, opts.componentId)
       const results = []
-      respond.forEach((item) => {
-        item.poster = item.poster_path === null ? 'https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg' : 'https://image.tmdb.org/t/p/original' + item.poster_path
-        item.backdrop = item.backdrop_path === null ? 'https://www.themoviedb.org/assets/2/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png' : 'https://image.tmdb.org/t/p/original' + item.backdrop_path
-        results.push(item)
-      })
-      const totalPages = res.data.total_pages
-      commit(cfg.renderComponent, {
-        data: { results, totalPages },
-        cId: opts.componentId
-      })
+      axios.get(opts.ep)
+        .then((response) => {
+          const res = response.data.results
+          if (res !== 0) {
+            res.forEach((item) => {
+              item.youtubeUrl = `https://www.youtube.com/watch?v=${item.key}`
+              results.push(item)
+            })
+          } else {
+            return {}
+          }
+          commit(cfg.setTrailers, {
+            data: results,
+            cId: opts.componentId
+          })
+        }).catch((error) => {
+          throw error
+        })
     }
   },
   getters: {
@@ -47,6 +75,9 @@ export default {
     },
     getData: state => (cId) => {
       return state.appData[cId]
+    },
+    getTrailers: state => (cId) => {
+      return state.Trailers[cId]
     }
   }
 }

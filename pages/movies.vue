@@ -1,16 +1,21 @@
 <template>
-  <v-container>
-    <TrendingMovies />
-    <v-snackbar
-      v-model="snackbar"
-      top
-      right
-      color="error"
-      timeout="1500"
-    >
-      Please add title
-    </v-snackbar>
-  </v-container>
+  <div>
+    <v-row>
+      <UpComing />
+    </v-row>
+    <v-row>
+      <Trending />
+    </v-row>
+    <v-row>
+      <Popular />
+    </v-row>
+    <v-row>
+      <TopRated />
+    </v-row>
+    <v-row>
+      <NowPlaying />
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -21,11 +26,6 @@ export default {
     return {
       mediaType: 'movie',
       btns: ['Trending', 'Popular', 'Top Rated', 'Up Coming', 'Now Playing'],
-      popular: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.apiSecret}&language=en-US&region=us`,
-      trending: `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.apiSecret}&language=en-US&region=us`,
-      topRated: `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.apiSecret}&language=en-US&region=us`,
-      upComing: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.apiSecret}&language=en-US&region=us`,
-      nowPlaying: `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.apiSecret}&language=en-US&region=us`,
       searchUrl: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.apiSecret}&language=en-US`,
       loading: false,
       snackbar: false,
