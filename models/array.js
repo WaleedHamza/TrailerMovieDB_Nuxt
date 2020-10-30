@@ -1,6 +1,6 @@
 export default {
-  movieModel: {
+  movieModel: [{
     id: 0,
     title: 'No Results found'
-  }
+  }]
 }

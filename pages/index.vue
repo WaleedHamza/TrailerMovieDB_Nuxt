@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-row>
+      <Jumbotron />
+    </v-row>
+    <v-row>
       <UpComing />
     </v-row>
     <v-row>
@@ -17,7 +20,7 @@ export default {
   },
   data () {
     return {
-      key: {}
+      searchText: ''
     }
   },
   computed: {

@@ -1,0 +1,88 @@
+<template>
+  <v-container class="d-flex justify-center" height="20%" style="position: relative">
+    <v-card class="mt-5 jumbotron" width="80%" height="100%">
+      <v-img
+        class="d-flex justify-center align-end"
+        :src="backdrop"
+        contain
+      >
+        <v-text-field
+          v-model="searchText"
+          label="Search movies, TV-shows and more.."
+          solo
+          clearable
+          max-width="500"
+          @click:clear="hideBtn"
+        >
+          <template v-if="showBtn" v-slot:append>
+            <v-btn @click="search">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+        </v-text-field>
+      </v-img>
+    </v-card>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ text }}
+    </v-snackbar>
+  </v-container>
+</template>
+
+<script>
+// import { mapGetters } from 'vuex'
+import cfg from '../config/index'
+export default {
+  middleware ({ store, redirect }) {
+  // eslint-disable-next-line no-prototype-builtins
+    if (store.state.appData.hasOwnProperty('searchResults')) {
+      return alert(store.state.appData.searchResults)
+    //  redirect('/search')
+    }
+  },
+  components: {
+  },
+  data () {
+    return {
+      searchText: '',
+      searchUrl: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.apiSecret}&language=en-US`,
+      backdrop: 'https://www.themoviedb.org/assets/2/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png',
+      snackbar: false,
+      showBtn: false,
+      text: 'Please type movie or tvshow name'
+    }
+  },
+  computed: {
+    searchResults () {
+      return this.loading
+        ? []
+        : this.getData(this.opts.componentId)
+    }
+  },
+  watch: {
+    searchText (newVal) {
+      newVal === '' ? this.showBtn = false : this.showBtn = true
+    }
+  },
+  created () {
+  },
+  mounted () {
+  },
+  methods: {
+    search () {
+      const t = this.searchText
+      if (t === '') {
+        this.snackbar = true
+      } else {
+        const URL = `${this.searchUrl}&query=${t}`
+        this.opts = cfg.renderObject(URL, 'searchResults')
+        this.$store.dispatch(cfg.grd, this.opts)
+      }
+    },
+    hideBtn () {
+      this.showBtn = false
+    }
+  }
+}
+</script>

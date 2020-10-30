@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-row class="d-flex justify-center">
-      <v-sheet>Now Playing Movies</v-sheet>
+      <v-row class="d-flex justify-start" width="100%">
+        <v-sheet>Now Playing Movies</v-sheet>
+      </v-row>
       <v-container class="d-flex justify-content-center" style="overflow: auto; white-space: nowrap;">
         <div
           v-for="(item, index) in nowPlayingMovies.results"
@@ -12,7 +14,7 @@
       </v-container>
       <v-pagination
         v-model="currentPage"
-        total-visible="5"
+        :total-visible="7"
         :length="nowPlayingMovies.totalPages"
         @input="updatePage"
       />
@@ -66,13 +68,8 @@ export default {
       this.$store.dispatch(cfg.grd, this.opts)
     },
     updatePage () {
-      if (this.currentPage === this.nextPage) {
-        return null
-      } else {
-        this.nextPage = this.currentPage
-        this.opts = cfg.renderObject(`${this.nowPlayingUrl}&page=${this.currentPage}`, this.componentId)
-        this.loadNowPlaying()
-      }
+      this.opts = cfg.renderObject(`${this.nowPlayingUrl}&page=${this.currentPage}`, this.componentId)
+      this.loadNowPlaying()
     }
   }
 }

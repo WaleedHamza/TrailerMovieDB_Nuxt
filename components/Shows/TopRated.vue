@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-row class="d-flex justify-center">
-      <v-sheet>Top Rated Shows</v-sheet>
+      <v-row class="d-flex justify-start" width="100%">
+        <v-sheet>Top Rated Shows</v-sheet>
+      </v-row>
       <v-container class="d-flex justify-content-center" style="overflow: auto; white-space: nowrap;">
         <div
           v-for="(item, index) in topRatedShows.results"

@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-row class="d-flex justify-center">
-      <v-sheet>Top Rated Movies</v-sheet>
+      <v-row class="d-flex justify-start" width="100%">
+        <v-sheet>Top Rated Movies</v-sheet>
+      </v-row>
       <v-container class="d-flex justify-content-center" style="overflow: auto; white-space: nowrap;">
         <div
           v-for="(item, index) in toppRatedMovies.results"
@@ -12,7 +14,7 @@
       </v-container>
       <v-pagination
         v-model="currentPage"
-        total-visible="5"
+        :total-visible="7"
         :length="toppRatedMovies.totalPages"
         @input="updatePage"
       />

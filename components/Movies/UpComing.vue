@@ -1,18 +1,20 @@
 <template>
   <div>
     <v-row class="d-flex justify-center">
-      <v-sheet>Up Coming Movies</v-sheet>
+      <v-row class="d-flex justify-start" width="100%">
+        <v-sheet>Up Coming Movies</v-sheet>
+      </v-row>
       <v-container class="d-flex justify-content-center" style="overflow: auto; white-space: nowrap;">
         <div
-          v-for="(item, index) in upComingMovies.results"
-          :key="index"
+          v-for="item in upComingMovies.results"
+          :key="item.id"
         >
           <Card :item="item" :type="mediaType" :cid="componentId" :loading="loading" style="display: inline-block;" />
         </div>
       </v-container>
       <v-pagination
         v-model="currentPage"
-        total-visible="5"
+        :total-visible="7"
         :length="upComingMovies.totalPages"
         @input="updatePage"
       />
