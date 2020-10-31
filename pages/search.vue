@@ -1,20 +1,23 @@
 <template>
-  <v-container :loading="loading">
-    <h1>{{ slug }}</h1>
-    {{ result }}
+  <v-container class="d-flex justify-center flex-wrap overflow-y-auto">
+    <div v-for="item in searchResults.results" :key="item.id">
+      <Card :item="item" :loading="loading" :cid="componentId" />
+    </div>
   </v-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  async asyncData ({ params }) {
-    const slug = await params.slug
-    return { slug }
-  },
   data () {
     return {
-      result: []
+      componentId: 'searchResults',
+      result: [],
+      attrs: {
+        class: 'mb-6',
+        boilerplate: true,
+        elevation: 2
+      }
     }
   },
   computed: {
@@ -22,19 +25,15 @@ export default {
     searchResults () {
       return this.loading
         ? []
-        : this.getData(this.opts.componentId)
+        : this.getData(this.componentId)
     },
     loading () {
-      return this.isLoading(this.opts.componentId)
+      return this.isLoading(this.componentId)
     }
   },
   created () {
-    this.getResults()
   },
   methods: {
-    getResults () {
-      this.result = this.$store.state.appData.searchResults
-    }
   }
 }
 </script>

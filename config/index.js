@@ -1,13 +1,13 @@
 export default {
   loadComponent: 'LOAD_COMPONENT',
   renderComponent: 'RENDER_COMPONENT',
-  setTrailers: 'SET_TRAILERS',
+  renderTrailers: 'RENDER_TRAILERS',
   setData: 'SET_DATA',
   dkVideos: 'data.videos',
   upComingMoviesPageNumber: 'upComingMoviesPageNumber',
   upComingMoviesTotalPages: 'upComingMoviesTotalPages',
   grd: 'getRenderData',
-  gT: 'getTrailers',
+  sT: 'setTrailers',
   renderObject (endPoint, cId) {
     return {
       ep: endPoint,

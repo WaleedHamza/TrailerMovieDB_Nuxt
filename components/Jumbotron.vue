@@ -31,16 +31,8 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 import cfg from '../config/index'
 export default {
-  middleware ({ store, redirect }) {
-  // eslint-disable-next-line no-prototype-builtins
-    if (store.state.appData.hasOwnProperty('searchResults')) {
-      return alert(store.state.appData.searchResults)
-    //  redirect('/search')
-    }
-  },
   components: {
   },
   data () {
@@ -78,6 +70,7 @@ export default {
         const URL = `${this.searchUrl}&query=${t}`
         this.opts = cfg.renderObject(URL, 'searchResults')
         this.$store.dispatch(cfg.grd, this.opts)
+        this.$router.push('/search')
       }
     },
     hideBtn () {

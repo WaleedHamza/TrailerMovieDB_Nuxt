@@ -1,11 +1,11 @@
 <template>
   <div class="ma-1">
     <v-skeleton-loader
-      v-model="loading"
+      :loading="loading"
       class="mx-auto"
       type="card"
     >
-      <v-card class="mx-auto card" width="200">
+      <v-card class="mx-auto" width="200">
         <v-img
           class="white--text align-end"
           height="300px"
@@ -22,59 +22,69 @@
           <v-card-subtitle v-else>
             Release date is unavailable
           </v-card-subtitle>
-          <v-icon @click="showInfoDialog =!showInfoDialog">
+          <v-icon @click="getInfo(item.id)">
             mdi-information
           </v-icon>
         </v-card-actions>
       </v-card>
     </v-skeleton-loader>
-    <v-dialog v-model="showInfoDialog" max-width="1080">
+    <v-dialog v-model="showInfoDialog" max-width="900">
       <v-img :src="item.backdrop" style="position: relative">
-        <v-card class="pa-10 " width="100%" height="100%" style="background-color: rgba(0,0,0,0.5); position: absolute">
-          <v-img
-            class="d-flex align-end white--text align-end"
-            width="175px"
-            :src="item.poster"
-          />
-          <v-rating
-            :value="item.vote_average/2"
-            color="orange"
-            small
-          />
-          <v-card-title>{{ item.title }}</v-card-title>
-          <v-card-subtitle class="pb-0">
-            Release Date {{ item.release_date }}
-          </v-card-subtitle>
-          <v-card-text class="text--primary">
-            {{ item.overview }}
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn
-              color="orange"
-              text
-              @click="trailerDialog = true"
-            >
-              <v-icon>mdi-play-outline</v-icon>
-            </v-btn>
-          </v-card-actions>
+        <v-card class="px-10 " width="100%" height="100%" style="background-color: rgba(0,0,0,0.5); position: absolute">
+          <v-row class="d-flex justify-end">
+            <v-icon class="pa-5" color="red" @click="toggleInfoDialog">
+              mdi-close
+            </v-icon>
+          </v-row>
+          <v-row class="d-flex">
+            <div class="col-3">
+              <v-img
+                class="white--text align-end"
+                width="175px"
+                :src="item.poster"
+              />
+              <v-rating
+                :value="item.vote_average/2"
+                color="orange"
+                small
+              />
+            </div>
+            <div class="col-9">
+              <v-card-title>{{ item.title }}</v-card-title>
+              <v-card-subtitle class="pb-0">
+                Release Date {{ item.release_date }}
+              </v-card-subtitle>
+              <v-card-text class="text--primary">
+                Overview: {{ item.overview }}
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="orange"
+                  text
+                  @click="toggleTrailerDialog"
+                >
+                  <v-icon>mdi-play-outline</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </div>
+          </v-row>
         </v-card>
       </v-img>
     </v-dialog>
-    <v-dialog v-model="trailerDialog" max-width="1080" overlay-color="black">
-      <v-container v-if="trailerDialog" class="d-flex flex-column">
-        <v-row class="d-flex justify-end">
-          <v-icon class="pa-5" color="red" @click="trailerDialog = false">
-            mdi-close
-          </v-icon>
-        </v-row>
-        <v-row v-if="showNoResults" class="d-flex justify-center">
-          <v-sheet class="pa-30" color="red">
-            <h1>No Trailers available</h1>
-          </v-sheet>
-        </v-row>
+    <v-dialog
+      v-model="trailerDialog"
+      max-width="1090"
+      class="d-flex justify-center"
+      style="position: absolute"
+      :loading="loading"
+      overlay-color="black"
+    >
+      <v-container v-if="trailerDialog" class="d-flex flex-column pa-0">
+        <v-sheet v-if="Trailers.length <= 0" class="d-flex justify-center pa-100" color="red">
+          <h1>No Trailers availableat the time </h1>
+        </v-sheet>
         <v-row v-else>
-          <vue-plyr>
+          <vue-plyr class="player">
             <div :data-plyr-provider="Trailers[0].site" :data-plyr-embed-id="Trailers[0].key" />
           </vue-plyr>
         </v-row>
@@ -137,10 +147,6 @@ export default {
     }
   },
   watch: {
-    // eslint-disable-next-line object-shorthand
-    Trailers: function (val) {
-      this.check(val)
-    }
   },
   created () {
     // get the trailers
@@ -149,33 +155,31 @@ export default {
   mounted () {
   },
   methods: {
-    getTrailers (props) {
-      const URL = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${props.id}/videos?api_key=${process.env.apiSecret}&language=en-US`
-        : `https://api.themoviedb.org/3/movie/${props.id}/videos?api_key=${process.env.apiSecret}&language=en-US`
+    getInfo (id) {
+      const URL = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${process.env.apiSecret}&language=en-US`
+        : `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.apiSecret}&language=en-US`
       this.opts = cfg.renderTrailer(URL, 'Trailers')
-      this.$store.dispatch(cfg.gT, this.opts)
+      this.$store.dispatch(cfg.sT, this.opts)
+      this.toggleInfoDialog()
+    },
+    toggleInfoDialog () {
       this.showInfoDialog = !this.showInfoDialog
     },
-    check () {
-      if (Object.keys(this.Trailers).length === 0) {
-        this.showNoResults = true
-      } else {
-        this.showNoResults = false
-      }
+    toggleTrailerDialog () {
+      this.trailerDialog = !this.trailerDialog
     }
   }
 }
 </script>
 
 <style scoped>
-.card {
-  background-color: rgba(0, 0, 0, 0);
+
+.player {
+  width: 1090px!important;
 }
-.container {
-  background-color: rgba(163, 5, 5, 0);
-}
-.player{
-  position: relative;
-  /* display: inline-block; */
+.curtain {
+  background-color: #FFFFFF;
+background-image: linear-gradient(180deg, #FFFFFF 0%, #6284FF 50%, #FF0000 100%);
+
 }
 </style>

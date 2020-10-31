@@ -20,9 +20,9 @@ export default {
       Vue.set(state.appData, payload.cId, payload.data)
       Vue.set(state.laodingState, payload.cId, false)
     },
-    SET_TRAILERS (state, payload) {
+    RENDER_TRAILERS (state, payload) {
       Vue.set(state.Trailers, payload.cId, payload.data)
-      Vue.set(state.laodingState, payload.cId, false)
+      Vue.set(state.loadingStates, payload.cId, false)
     }
   },
   actions: {
@@ -46,21 +46,22 @@ export default {
         throw error
       })
     },
-    getTrailers ({ commit }, opts) {
+    setTrailers ({ commit }, opts) {
       commit(cfg.loadComponent, opts.componentId)
       const results = []
       axios.get(opts.ep)
         .then((response) => {
           const res = response.data.results
-          if (res !== 0) {
+          if (res) {
             res.forEach((item) => {
-              item.youtubeUrl = `https://www.youtube.com/watch?v=${item.key}`
+              item.youtubeUrl = `https://www.youtube.com/embed/${item.key}`
+              item.site = item.site.toLowerCase()
               results.push(item)
             })
           } else {
-            return {}
+            return []
           }
-          commit(cfg.setTrailers, {
+          commit(cfg.renderTrailers, {
             data: results,
             cId: opts.componentId
           })
