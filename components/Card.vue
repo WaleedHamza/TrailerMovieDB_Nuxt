@@ -50,9 +50,9 @@
               />
             </div>
             <div class="col-9">
-              <v-card-title>{{ item.title }}</v-card-title>
+              <v-card-title>{{ item.title }} {{ item.name }}</v-card-title>
               <v-card-subtitle class="pb-0">
-                Release Date {{ item.release_date }}
+                Release Date: {{ item.release_date }} {{ item.first_air_date }}
               </v-card-subtitle>
               <v-card-text class="text--primary">
                 Overview: {{ item.overview }}
