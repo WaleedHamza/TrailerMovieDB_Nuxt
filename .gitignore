@@ -85,6 +85,7 @@ sw.*
 
 # macOS
 .DS_Store
-
+.gitignore
+.vscode
 # Vim swap files
 *.swp
