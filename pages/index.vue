@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-row>
+  <v-container>
+    <v-row class="mb-10">
       <Jumbotron />
     </v-row>
     <v-row>
@@ -9,7 +9,7 @@
     <v-row>
       <PopularShows />
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -17,19 +17,6 @@ import PopularShows from '../components/Shows/Popular'
 export default {
   components: {
     PopularShows
-  },
-  data () {
-    return {
-      searchText: ''
-    }
-  },
-  computed: {
-  },
-  created () {
-  },
-  mounted () {
-  },
-  methods: {
   }
 }
 </script>
