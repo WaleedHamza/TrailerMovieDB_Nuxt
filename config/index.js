@@ -1,20 +1,13 @@
 export default {
   loadComponent: 'LOAD_COMPONENT',
   renderComponent: 'RENDER_COMPONENT',
-  renderTrailers: 'RENDER_TRAILERS',
   setData: 'SET_DATA',
-  dkVideos: 'data.videos',
+  dkItem (itemId) { return `itemId.${itemId}` },
   upComingMoviesPageNumber: 'upComingMoviesPageNumber',
   upComingMoviesTotalPages: 'upComingMoviesTotalPages',
   grd: 'getRenderData',
-  sT: 'setTrailers',
+  sI: 'setInfo',
   renderObject (endPoint, cId) {
-    return {
-      ep: endPoint,
-      componentId: cId
-    }
-  },
-  renderTrailer (endPoint, cId) {
     return {
       ep: endPoint,
       componentId: cId

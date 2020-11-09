@@ -2,30 +2,28 @@
   <div class="ma-1">
     <v-skeleton-loader
       :loading="loading"
+      transition="fade"
       class="mx-auto"
       type="card"
     >
-      <v-card class="mx-auto" width="200">
+      <v-card class="mx-auto">
         <v-img
+          v-if="item.poster_path != null"
           class="white--text align-end"
-          height="300px"
-          :src="item.poster"
+          width="150"
+          :src="`https://image.tmdb.org/t/p/original${item.poster_path}`"
+          lazy-src="https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
+          contain
+          @click="getInfo(item)"
+        />
+        <v-img
+          v-else
+          class="white--text align-end"
+          width="150"
+          src="https://www.csaff.org/wp-content/uploads/csaff-no-poster.jpg"
           lazy-src="https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
           contain
         />
-        <v-card-actions class="d-flex justify-space-around align-center">
-          <v-sheet v-if="item.release_date || item.first_air_date">
-            <p class="ma-0" style="font-size: 70%">
-              {{ item.release_date }}{{ item.first_air_date }}
-            </p>
-          </v-sheet>
-          <v-card-subtitle v-else>
-            Release date is unavailable
-          </v-card-subtitle>
-          <v-icon @click="getInfo(item.id)">
-            mdi-information
-          </v-icon>
-        </v-card-actions>
       </v-card>
     </v-skeleton-loader>
     <v-dialog v-model="showInfoDialog" max-width="900">
@@ -114,12 +112,6 @@ export default {
       },
       type: String
     },
-    loading: {
-      default: () => {
-        return {}
-      },
-      type: Boolean
-    },
     cid: {
       default: () => {
         return {}
@@ -141,26 +133,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getTrailers']),
-    Trailers () {
-      return this.loading ? [] : this.getTrailers('Trailers')
+    ...mapGetters(['isLoading']),
+    loading () {
+      return this.isLoading(this.cid)
     }
   },
-  watch: {
-  },
-  created () {
-    // get the trailers
-    // set store state
-  },
-  mounted () {
-  },
   methods: {
-    getInfo (id) {
-      const URL = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${process.env.apiSecret}&language=en-US`
-        : `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.apiSecret}&language=en-US`
-      this.opts = cfg.renderTrailer(URL, 'Trailers')
-      this.$store.dispatch(cfg.sT, this.opts)
-      this.toggleInfoDialog()
+    getInfo (i) {
+      const DETAILS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}?api_key=${process.env.apiSecret}&language=en-US`
+      const CREDIT = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/credits?api_key=${process.env.apiSecret}` : `https://api.themoviedb.org/3/movie/${i.id}/credits?api_key=${process.env.apiSecret}`
+      const SIMILAR = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/similar?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/similar?api_key=${process.env.apiSecret}&language=en-US`
+      const REVIEWS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/reviews?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/reviews?api_key=${process.env.apiSecret}&language=en-US`
+      const TRAILERS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/videos?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/videos?api_key=${process.env.apiSecret}&language=en-US`
+      const URLS = [DETAILS, CREDIT, SIMILAR, REVIEWS, TRAILERS]
+      URLS.forEach((url, index) => {
+        this.opts = cfg.renderObject(url, `objInfo.${index}`)
+        this.$store.dispatch(cfg.sI, this.opts)
+      })
+      const slug = this.type === 'show' ? i.original_name.replace(/\s/g, '-') : i.title.replace(/\s/g, '-')
+      this.$router.push(`/${slug}`)
     },
     toggleInfoDialog () {
       this.showInfoDialog = !this.showInfoDialog
@@ -171,15 +162,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-.player {
-  width: 1090px!important;
-}
-.curtain {
-  background-color: #FFFFFF;
-background-image: linear-gradient(180deg, #FFFFFF 0%, #6284FF 50%, #FF0000 100%);
-
-}
-</style>

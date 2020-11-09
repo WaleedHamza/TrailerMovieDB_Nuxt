@@ -33,38 +33,12 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <VuetifyLogo />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container class="ma0 pa-0" style="width:100%">
         <nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <!-- <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item> -->
-        <v-list-item>fix videos display modal</v-list-item>
-        <v-list-item>Make welcome page play videos automaticaly</v-list-item>
-        <v-list-item>downloadable posters</v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer
       :absolute="fixed"
       app
@@ -104,7 +78,6 @@ export default {
       ],
       miniVariant: false,
       right: true,
-      rightDrawer: false,
       title: 'Search TMDB'
     }
   }

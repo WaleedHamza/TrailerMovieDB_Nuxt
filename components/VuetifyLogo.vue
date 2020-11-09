@@ -2,7 +2,7 @@
   <img
     class="VuetifyLogo"
     alt="Vuetify Logo"
-    src="/powered-by-rectangle-green.svg"
+    src="../static/powered-by-rectangle-green.svg"
   >
 </template>
 
