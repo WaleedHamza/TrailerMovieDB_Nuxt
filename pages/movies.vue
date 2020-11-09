@@ -10,7 +10,7 @@
       <PopularMovies />
     </v-row>
     <v-row>
-      <TopRated />
+      <TopRatedMovies />
     </v-row>
     <v-row>
       <NowPlaying />
