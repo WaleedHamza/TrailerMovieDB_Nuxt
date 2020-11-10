@@ -103,7 +103,7 @@ export default {
   build: {
   },
   env: {
-    apiSecret: process.env.API_SECRET,
+    API_SECRET: process.env.API_SECRET,
     baseURL: process.env.BASEURL
   }
 }

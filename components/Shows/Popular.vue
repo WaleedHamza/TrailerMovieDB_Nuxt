@@ -38,7 +38,7 @@ export default {
     return {
       mediaType: 'show',
       componentId: 'popularShows',
-      popularUrl: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.apiSecret}&language=en-US`,
+      popularUrl: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.API_SECRET}&language=en-US`,
       currentPage: 1,
       nextPage: 0,
       totalPages: 1,

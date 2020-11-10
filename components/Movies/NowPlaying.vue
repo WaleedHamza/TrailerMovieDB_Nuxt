@@ -38,7 +38,7 @@ export default {
     return {
       mediaType: 'movie',
       componentId: 'nowPlayingMovies',
-      nowPlayingUrl: `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.apiSecret}&language=en-US&region=us`,
+      nowPlayingUrl: `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.API_SECRET}&language=en-US&region=us`,
       currentPage: 1,
       nextPage: 0,
       totalPages: 1,

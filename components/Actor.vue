@@ -44,7 +44,7 @@ export default {
   }),
   methods: {
     getActorsCredit (i) {
-      const url = `https://api.themoviedb.org/3/person/${i.id}/combined_credits?api_key=${process.env.apiSecret}&language=en-US`
+      const url = `https://api.themoviedb.org/3/person/${i.id}/combined_credits?api_key=${process.env.API_SECRET}&language=en-US`
       const actor = i.name.replace(/\s/g, '-')
       this.opts = cfg.renderObject(url, `${actor}`)
       this.$store.dispatch(cfg.sI, this.opts)
@@ -52,7 +52,7 @@ export default {
       this.$router.push(`actor/${actor}`)
     },
     getActorsDetails (i) {
-      const url = `https://api.themoviedb.org/3/person/${i.id}?api_key=${process.env.apiSecret}&language=en-US`
+      const url = `https://api.themoviedb.org/3/person/${i.id}?api_key=${process.env.API_SECRET}&language=en-US`
       const actor = i.name.replace(/\s/g, '-')
       this.opts = cfg.renderObject(url, `${actor}.details`)
       this.$store.dispatch(cfg.sI, this.opts)

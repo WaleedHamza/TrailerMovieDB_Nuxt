@@ -38,7 +38,7 @@ export default {
     return {
       mediaType: 'movie',
       componentId: 'upComingMovies',
-      upComingUrl: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.apiSecret}&language=en-US&region=us`,
+      upComingUrl: `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.API_SECRET}&language=en-US&region=us`,
       currentPage: 1,
       nextPage: 0,
       totalPages: 1,

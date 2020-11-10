@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       searchText: '',
-      searchUrl: `https://api.themoviedb.org/3/search/multi?api_key=${process.env.apiSecret}&language=en-US&page=1&include_adult=false`,
+      searchUrl: `https://api.themoviedb.org/3/search/multi?api_key=${process.env.API_SECRET}&language=en-US&page=1&include_adult=false`,
       backdrop: 'https://www.themoviedb.org/assets/2/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png',
       snackbar: false,
       showBtn: false,

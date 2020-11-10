@@ -121,7 +121,6 @@ export default {
   },
   data () {
     return {
-      key: process.env.apiSecret,
       videoKey: this.item.id,
       scrollInvoked: 0,
       showInfoDialog: false,
@@ -140,11 +139,11 @@ export default {
   },
   methods: {
     getInfo (i) {
-      const DETAILS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}?api_key=${process.env.apiSecret}&language=en-US`
-      const CREDIT = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/credits?api_key=${process.env.apiSecret}` : `https://api.themoviedb.org/3/movie/${i.id}/credits?api_key=${process.env.apiSecret}`
-      const SIMILAR = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/similar?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/similar?api_key=${process.env.apiSecret}&language=en-US`
-      const REVIEWS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/reviews?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/reviews?api_key=${process.env.apiSecret}&language=en-US`
-      const TRAILERS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/videos?api_key=${process.env.apiSecret}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/videos?api_key=${process.env.apiSecret}&language=en-US`
+      const DETAILS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}?api_key=${process.env.API_SECRET}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}?api_key=${process.env.API_SECRET}&language=en-US`
+      const CREDIT = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/credits?api_key=${process.env.API_SECRET}` : `https://api.themoviedb.org/3/movie/${i.id}/credits?api_key=${process.env.API_SECRET}`
+      const SIMILAR = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/similar?api_key=${process.env.API_SECRET}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/similar?api_key=${process.env.API_SECRET}&language=en-US`
+      const REVIEWS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/reviews?api_key=${process.env.API_SECRET}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/reviews?api_key=${process.env.API_SECRET}&language=en-US`
+      const TRAILERS = this.type === 'show' ? `https://api.themoviedb.org/3/tv/${i.id}/videos?api_key=${process.env.API_SECRET}&language=en-US` : `https://api.themoviedb.org/3/movie/${i.id}/videos?api_key=${process.env.API_SECRET}&language=en-US`
       const URLS = [DETAILS, CREDIT, SIMILAR, REVIEWS, TRAILERS]
       URLS.forEach((url, index) => {
         this.opts = cfg.renderObject(url, `objInfo.${index}`)
