@@ -10,7 +10,7 @@
           <v-list-item-title class="headline mb-1">
             {{ details.name }}
           </v-list-item-title>
-          <div v-if="details.gender = 2" class="overline mb-1">
+          <div v-if="details.gender === 2" class="overline mb-1">
             Male
           </div>
           <div v-else class="overline mb-1">
