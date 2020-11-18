@@ -45,6 +45,7 @@ export default {
       src: '~/plugins/vue-video-background',
       ssr: false
     },
+    { src: '~plugins/ga.js', mode: 'client' },
     '~/plugins/vue-plyr'
   ],
   /*
