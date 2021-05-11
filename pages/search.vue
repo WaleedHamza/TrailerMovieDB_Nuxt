@@ -19,7 +19,7 @@
             <v-icon v-else class="mx-2">
               mdi-account
             </v-icon>
-            {{ item.original_title }}{{ item.original_name }}{{ item.name }}
+            <strong>{{ item.original_title }}{{ item.original_name }}{{ item.name }}</strong> {{ item.release_date }}
           </v-card-title>
           <v-card-subtitle v-if="item.media_type === 'movie'">
             {{ item.overview }}
@@ -82,6 +82,11 @@ export default {
     },
     loading () {
       return this.isLoading(this.componentId)
+    }
+  },
+  methods: {
+    hasProperty (Obj, key) {
+      return this.hasProperty.call(Obj, key)
     }
   }
 }
