@@ -15,6 +15,7 @@
 <script>
 import PopularShows from '../components/Shows/Popular'
 export default {
+  name: 'HomePage',
   components: {
     PopularShows
   }

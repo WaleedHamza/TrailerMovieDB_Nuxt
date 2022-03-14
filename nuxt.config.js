@@ -34,7 +34,7 @@ export default {
   ** Global CSS
   */
   css: [
-    'plyr/dist/plyr.css'
+    // 'plyr/dist/plyr.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -45,8 +45,8 @@ export default {
       src: '~/plugins/vue-video-background',
       ssr: false
     },
-    { src: '~plugins/ga.js', mode: 'client' },
-    '~/plugins/vue-plyr'
+    // { src: '~plugins/ga.js', mode: 'client' },
+    // '~/plugins/vue-plyr'
   ],
   /*
   ** Auto import components

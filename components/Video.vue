@@ -28,6 +28,7 @@
 import axios from 'axios'
 
 export default {
+  name: 'VideoItem',
   props: {
     videoKey: {
       type: Number,

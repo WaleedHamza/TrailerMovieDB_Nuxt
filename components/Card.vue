@@ -96,7 +96,7 @@ import { mapGetters } from 'vuex'
 import cfg from '../config/index'
 
 export default {
-  name: 'Card',
+  name: 'CardItem',
   components: {
   },
   props: {
@@ -108,13 +108,13 @@ export default {
     },
     type: {
       default: () => {
-        return {}
+        return ''
       },
       type: String
     },
     cid: {
       default: () => {
-        return {}
+        return ''
       },
       type: String
     }

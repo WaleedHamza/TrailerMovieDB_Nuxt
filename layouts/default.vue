@@ -51,6 +51,7 @@
 <script>
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 export default {
+  name: 'DefaultLayout',
   components: {
     VuetifyLogo
   },

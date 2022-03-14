@@ -34,6 +34,7 @@
 import { mapGetters } from 'vuex'
 import cfg from '../../config/index'
 export default {
+  name: 'PopularShows',
   data () {
     return {
       mediaType: 'show',

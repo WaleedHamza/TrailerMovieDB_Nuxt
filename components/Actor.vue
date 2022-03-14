@@ -31,6 +31,7 @@
 <script>
 import cfg from '../config/index'
 export default {
+  name: 'home_page',
   props: {
     item: {
       default: () => {

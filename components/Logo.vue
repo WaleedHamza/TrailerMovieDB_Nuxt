@@ -7,6 +7,13 @@
   </div>
 </template>
 
+<script>
+
+export default {
+  name: 'LoadingItem'
+}
+</script>
+
 <style>
 .VueToNuxtLogo {
   display: inline-block;

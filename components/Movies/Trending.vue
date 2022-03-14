@@ -34,6 +34,7 @@
 import { mapGetters } from 'vuex'
 import cfg from '../../config/index'
 export default {
+  name: 'TrendingMovies',
   data () {
     return {
       mediaType: 'movie',
