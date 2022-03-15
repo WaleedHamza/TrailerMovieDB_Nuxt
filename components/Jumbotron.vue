@@ -1,6 +1,6 @@
 <template>
-  <v-container class="d-flex justify-center" height="20%" style="position: relative">
-    <v-card class="mt-5 jumbotron" width="80%" height="100%">
+  <v-container class="d-flex justify-center pa-0" height="20%" style="position: relative">
+    <v-card class="mt-5 jumbotron" :width="isMobile ? '100%' : '80%'" height="100%">
       <v-img
         class="d-flex justify-center align-end"
         :src="backdrop"
@@ -38,6 +38,7 @@ export default {
   },
   data () {
     return {
+      isMobile: false,
       searchText: '',
       searchUrl: `https://api.themoviedb.org/3/search/multi?api_key=${process.env.API_SECRET}&language=en-US&page=1&include_adult=false`,
       backdrop: 'https://www.themoviedb.org/assets/2/v4/marketing/deadpool-06f2a06d7a418ec887300397b6861383bf1e3b72f604ddd5f75bce170e81dce9.png',
@@ -60,7 +61,16 @@ export default {
   },
   created () {
   },
+
+  beforeDestroy () {
+    if (typeof window === 'undefined') { return }
+
+    window.removeEventListener('resize', this.onResize, { passive: true })
+  },
   mounted () {
+    this.onResize()
+
+    window.addEventListener('resize', this.onResize, { passive: true })
   },
   methods: {
     search () {
@@ -76,6 +86,9 @@ export default {
     },
     hideBtn () {
       this.showBtn = false
+    },
+    onResize () {
+      this.isMobile = window.innerWidth < 600
     }
   }
 }

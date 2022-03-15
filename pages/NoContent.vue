@@ -20,7 +20,7 @@ export default {
   },
   data () {
     return {
-      message: 'Sorry we are unable to find '
+      message: 'Sorry we are unable to find what you looking for'
     }
   }
 

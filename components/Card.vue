@@ -1,15 +1,15 @@
 <template>
-  <div class="ma-1">
+  <div class="ma-3">
     <v-skeleton-loader
       :loading="loading"
       transition="fade"
       class="mx-auto"
       type="card"
     >
-      <v-card class="mx-auto">
+      <div class="mx-auto">
         <v-img
           v-if="item.poster_path != null"
-          class="white--text align-end"
+          class="white--text align-end text-truncate"
           width="150"
           :src="`https://image.tmdb.org/t/p/original${item.poster_path}`"
           lazy-src="https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
@@ -24,7 +24,7 @@
           lazy-src="https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg"
           contain
         />
-      </v-card>
+      </div>
     </v-skeleton-loader>
     <v-dialog v-model="showInfoDialog" max-width="900">
       <v-img :src="item.backdrop" style="position: relative">

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="mb-10">
-      <Jumbotron />
+      <Carousel />
     </v-row>
     <v-row>
       <UpComing />
@@ -14,9 +14,11 @@
 
 <script>
 import PopularShows from '../components/Shows/Popular'
+import Carousel from '~/layouts/carosel.vue'
 export default {
   components: {
-    PopularShows
+    PopularShows,
+    Carousel
   }
 }
 </script>
