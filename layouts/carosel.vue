@@ -32,7 +32,8 @@
             />
           </div>
           <div>
-            <v-card-text class="text-center"> {{ item.overview}}
+            <v-card-text class="text-center">
+              {{ item.overview }}
             </v-card-text>
           </div>
         </v-row>
