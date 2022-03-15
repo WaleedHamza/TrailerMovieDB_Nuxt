@@ -71,6 +71,7 @@
 import cfg from '../config/index'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 export default {
+  name: 'DefaultLayout',
   components: {
     VuetifyLogo
   },

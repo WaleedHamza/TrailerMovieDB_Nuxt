@@ -67,6 +67,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  name: 'SerachComponent',
   data () {
     return {
       componentId: 'searchResults',

@@ -16,6 +16,7 @@
 import PopularShows from '../components/Shows/Popular'
 import Carousel from '~/layouts/carosel.vue'
 export default {
+  name: 'HomePage',
   components: {
     PopularShows,
     Carousel

@@ -11,14 +11,14 @@
 
 <script>
 export default {
-  name: 'Loading',
-  props: {
-    loading: {
-      default: () => {
-        return false
-      },
-      type: Boolean
-    }
-  }
+  name: 'LoadingItem'
+  // props: {
+  //   loading: {
+  //     default: () => {
+  //       return false
+  //     },
+  //     type: Boolean
+  //   }
+  // }
 }
 </script>

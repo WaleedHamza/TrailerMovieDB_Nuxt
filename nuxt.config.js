@@ -48,6 +48,7 @@ export default {
   //   { src: '~plugins/ga.js', mode: 'client' },
   //   '~/plugins/vue-plyr'
    ],
+
   /*
   ** Auto import components
   ** See https://nuxtjs.org/api/configuration-components
